@@ -6,10 +6,17 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/tyler-smith/go-bip32"
 	"github.com/tyler-smith/go-bip39"
+	"os"
 )
 
 func main() {
-	seed := bip39.NewSeed("", "")
+	if len(os.Args) < 3 {
+		panic("invalid input")
+	}
+	mnemonic := os.Args[1]
+	password := os.Args[2]
+	//
+	seed := bip39.NewSeed(mnemonic, password)
 	masterPrivateKey, _ := bip32.NewMasterKey(seed)
 	//
 	purposeKey, err := masterPrivateKey.NewChildKey(bip32.FirstHardenedChild + 44)
